@@ -16,11 +16,11 @@ video = VideoFileClip(video_path)
 video.audio.write_audiofile(audio_path)
 video.close()
 
-# ✅ STEP 2: SPLIT AUDIO INTO CHUNK_SIZEs CHUNKS
+# ✅ STEP 2: SPLIT AUDIO INTO CHUNK_DURATIONs CHUNKS
 
-CHUNK_SIZE = 30
+CHUNK_DURATION = 15
 audio = AudioSegment.from_file(audio_path)
-chunk_length_ms = CHUNK_SIZE * 1000  # CHUNK_SIZE seconds
+chunk_length_ms = CHUNK_DURATION * 1000  # CHUNK_DURATION seconds
 total_duration_ms = len(audio)  # Get actual duration in milliseconds
 
 # Calculate chunks respecting actual duration
@@ -79,8 +79,8 @@ full_transcript = []
 for idx, path in enumerate(chunk_paths):
     print(f"🔁 Transcribing: {path}")
     result = asr_pipe(path)
-    chunk_start = idx * CHUNK_SIZE  # Each chunk is CHUNK_SIZE seconds
-    chunk_end = min(chunk_start + CHUNK_SIZE, total_duration_ms /
+    chunk_start = idx * CHUNK_DURATION  # Each chunk is CHUNK_DURATION seconds
+    chunk_end = min(chunk_start + CHUNK_DURATION, total_duration_ms /
                     1000)  # Respect video duration
     for segment in result['chunks']:
         # Handle missing timestamps
