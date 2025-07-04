@@ -1,10 +1,11 @@
-# ✅ STEP 1: EXTRACT AUDIO FROM VIDEO
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 import os
 from pydub import AudioSegment
 import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 import json
+
+# ✅ STEP 1: EXTRACT AUDIO FROM VIDEO
 
 # Change to your video path
 video_path = "data/bio.mp4"
@@ -95,6 +96,7 @@ for idx, path in enumerate(chunk_paths):
                       chunk_start, total_duration_ms / 1000)
 
         full_transcript.append({
+            'chunk_id': idx+1,
             'start': seconds_to_hms(start),
             'end': seconds_to_hms(end),
             'text': segment['text']
