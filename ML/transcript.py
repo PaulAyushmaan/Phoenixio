@@ -18,7 +18,7 @@ video.close()
 
 # ✅ STEP 2: SPLIT AUDIO INTO CHUNK_SIZEs CHUNKS
 
-CHUNK_SIZE = 15
+CHUNK_SIZE = 30
 audio = AudioSegment.from_file(audio_path)
 chunk_length_ms = CHUNK_SIZE * 1000  # CHUNK_SIZE seconds
 total_duration_ms = len(audio)  # Get actual duration in milliseconds
