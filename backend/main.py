@@ -12,7 +12,9 @@ from mangum import Mangum
 # Local application imports
 from dependencies.configuration import AppConfiguration
 from dependencies.middleware_log import log_middleware
-
+from routes.user_router import (
+    auth_router,
+)
 
 # Initialize FastAPI app
 app = FastAPI(title="Phoenixio API")
@@ -40,7 +42,7 @@ def read_root():
 
 
 # Register routers
-
+app.include_router(auth_router)
 
 handler = Mangum(app)
 
