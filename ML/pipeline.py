@@ -34,6 +34,7 @@ def run_pipeline():
         max_gap_chunks = config.MAX_GAP_CHUNKS
         output_dir = config.output_dir
         highlight_video_name = config.highlight_video_name
+        cluster_map_output_path = config.cluster_map_output_path
         subject = "Computer_Science"  # Example subject, can be parameterized
         # Load environment variables in a file called .env
         api_key = os.getenv("GROQ_API_KEY")
@@ -198,7 +199,7 @@ def run_pipeline():
         processed_results, cluster_map = assign_cluster_ids_and_build_map(processed_results)
 
         try:
-            with open("data/cluster_map.json", "w", encoding="utf-8") as f:
+            with open(cluster_map_output_path, "w", encoding="utf-8") as f:
                 json.dump(cluster_map, f, indent=2, ensure_ascii=False)
         except IOError as e:
             logger.error(f"Failed to save cluster map: {e}")

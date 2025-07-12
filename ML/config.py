@@ -14,6 +14,7 @@ topic_tagged_transcript_output_path = "data/test_01/graphics_01_topic_tagged_tra
 topic_smooth_chunks_output_path = "data/test_01/graphics_01_topic_smooth_chunks.json"
 output_dir = "data/test_01"
 highlight_video_name = "graphics_01_highlight_video.mp4"
+cluster_map_output_path = "data/test_01/graphics_01_cluster_map.json"
 model = "llama3-70b-8192"
 temperature = 0.3
 base_url="https://api.groq.com/openai/v1"

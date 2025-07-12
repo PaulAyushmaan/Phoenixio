@@ -15,10 +15,6 @@ def setup_logging(log_file_path="logs/pipeline.log"):
         ]
     )
 
-
-with open("F:\hackathon\Phoenixio\ML\data\eng_01_on_off_topic.json", "r", encoding="utf-8") as f:
-    result = json.load(f)
-
 def timestamp_to_seconds(ts):
     """Converts a timestamp string like '00:01:30.25' to total seconds as float."""
     try:
