@@ -4,7 +4,7 @@ from transcript.transcript_merger import merge_chunk_transcripts
 from TopicSegmentation import TopicExtraction
 from LLMCaller.llm_call import Caller
 from LLMCaller.prompt import *
-from utils import time_to_seconds, assign_cluster_ids_and_build_map
+from ML.utility import time_to_seconds, assign_cluster_ids_and_build_map
 from processor.processing import *
 import config
 from moviepy.editor import VideoFileClip
