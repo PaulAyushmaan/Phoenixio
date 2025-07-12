@@ -1,16 +1,7 @@
 import React from 'react';
 import { Flame, Menu, X } from 'lucide-react';
 
-interface NavigationProps {
-  onLogin: () => void;
-  onRegister: () => void;
-  isMobileMenuOpen: boolean;
-  setIsMobileMenuOpen: (open: boolean) => void;
-  navigateTo: (path: string) => void;
-  onBrowseCourses: () => void;
-}
-
-const Navigation: React.FC<NavigationProps> = ({
+const Navigation = ({
   onLogin,
   onRegister,
   isMobileMenuOpen,
