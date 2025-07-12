@@ -1,6 +1,6 @@
 from transcript.audio_splitter import AudioSplitter
 from transcript.audio_transcriber import transcribe_audio_chunks
-from transcript.transcript_merger import merge_chunk_transcripts
+from Transcript.transcript_merger import merge_chunk_transcripts
 from TopicSegmentation import TopicExtraction
 from LLMCaller.llm_call import Caller
 from LLMCaller.prompt import *
@@ -14,6 +14,7 @@ import json
 import time
 
 logger = logging.getLogger(__name__)
+
 
 def run_pipeline():
     try:
@@ -40,7 +41,8 @@ def run_pipeline():
         api_key = os.getenv("GROQ_API_KEY")
         # Check the key
         if not api_key:
-            raise ValueError("API key is not set. Please set the API key in the environment variables.")
+            raise ValueError(
+                "API key is not set. Please set the API key in the environment variables.")
         try:
             os.makedirs(audio_output_path, exist_ok=True)
         except OSError as e:
@@ -56,13 +58,16 @@ def run_pipeline():
 
         # STEP 2: Split audio into chunks clearly
         logger.info("Splitting audio into chunks...")
-        audio_splitter = AudioSplitter(audio_input_path, audio_output_path, segment_length=20)
+        audio_splitter = AudioSplitter(
+            audio_input_path, audio_output_path, segment_length=20)
         chunk_files = audio_splitter.split_audio()
-        logger.info(f"Audio splitting completed. {len(chunk_files)} chunks created.")
+        logger.info(
+            f"Audio splitting completed. {len(chunk_files)} chunks created.")
 
         # STEP 3: Transcribe each audio chunk clearly
         logger.info("Transcribing audio chunks...")
-        chunk_transcripts = transcribe_audio_chunks(chunk_files, audio_chunk_duration=20)
+        chunk_transcripts = transcribe_audio_chunks(
+            chunk_files, audio_chunk_duration=20)
         logger.info("Transcription completed successfully.")
 
         # STEP 4: Merge chunk transcripts clearly
@@ -76,20 +81,21 @@ def run_pipeline():
         except IOError as e:
             logger.error(f"Failed to save transcript: {e}")
             raise
-        logger.info(f"Final merged transcript saved at: {transcript_output_path}")
+        logger.info(
+            f"Final merged transcript saved at: {transcript_output_path}")
 
         # STEP 6: Topic Extraction from Slides
         logger.info("Extracting topics from PowerPoint slides...")
         topic_extractor = TopicExtraction(ppt_path)
-        
+
         slide_text = topic_extractor.extract_slide_text()
-        
+
         if not slide_text:
             logger.warning("Slide text empty. Skipping LLM.")
             return
         window_size = topic_extractor.get_window_size(len(slide_text))
         segmented_slides = topic_extractor.group_slides_by_window(window_size)
-        
+
         llm_caller = Caller(model, api_key, temperature, base_url)
 
         logger.info("Calling LLM to extract topics from slides...")
@@ -106,15 +112,17 @@ def run_pipeline():
 
             llm_caller.enforce_rate_limit(tokens_estimated)
             user_prompt_all_topics = build_user_prompt_all_topics(group_text)
-            topics = llm_caller.call(system_prompt_all_topics_text, user_prompt_all_topics)
+            topics = llm_caller.call(
+                system_prompt_all_topics_text, user_prompt_all_topics)
 
             for item in parse_llm_output_to_list(topics):
                 topic_list.append(item)
-        
+
         # Refining Topic Extraction
         system_prompt_final_topics_text = system_prompt_final_topics()
         user_prompt_final_topics = build_user_prompt_final_topics(topic_list)
-        llm_output = llm_caller.call(system_prompt_final_topics_text, user_prompt_final_topics)
+        llm_output = llm_caller.call(
+            system_prompt_final_topics_text, user_prompt_final_topics)
         # print(llm_output)
         final_topic_list = parse_llm_output_to_list(llm_output)
         print(final_topic_list)
@@ -139,8 +147,10 @@ def run_pipeline():
 
         for chunk_id, chunk in enumerate(final_transcript["segments"], start=1):
             chunk['chunk_id'] = chunk_id
-            user_prompt_topic_tagging = build_user_prompt_topic_tagging(chunk['text'], final_topic_list)
-            llm_output = llm_caller.call(system_prompt_topic_tagging_text, user_prompt_topic_tagging)
+            user_prompt_topic_tagging = build_user_prompt_topic_tagging(
+                chunk['text'], final_topic_list)
+            llm_output = llm_caller.call(
+                system_prompt_topic_tagging_text, user_prompt_topic_tagging)
 
             structured_result = parse_topic_tagged_llm_response(
                 llm_output,
@@ -160,35 +170,43 @@ def run_pipeline():
         except IOError as e:
             logger.error(f"Failed to save processed transcript: {e}")
             raise
-        logger.info(f"Topic-tagged transcript saved at: {topic_tagged_transcript_output_path}")
+        logger.info(
+            f"Topic-tagged transcript saved at: {topic_tagged_transcript_output_path}")
         logger.info("Transcript tagging completed successfully.")
-        
+
         # Analyze the results
-        false_chunks = [chunk for chunk in processed_results if chunk.get("keep") is False]
+        false_chunks = [
+            chunk for chunk in processed_results if chunk.get("keep") is False]
         total_false_duration = sum(
             time_to_seconds(chunk['end']) - time_to_seconds(chunk['start'])
             for chunk in false_chunks
         )
 
-        true_chunks = [chunk for chunk in processed_results if chunk.get("keep") is True]
+        true_chunks = [
+            chunk for chunk in processed_results if chunk.get("keep") is True]
         total_true_duration = sum(
             time_to_seconds(chunk['end']) - time_to_seconds(chunk['start'])
             for chunk in true_chunks
         )
 
         logger.info(f"Total teaching chunks: {len(true_chunks)}")
-        logger.info(f"Total teaching time: {total_true_duration} seconds ({total_true_duration / 60:.2f} minutes)")
+        logger.info(
+            f"Total teaching time: {total_true_duration} seconds ({total_true_duration / 60:.2f} minutes)")
 
         logger.info(f"Total non-teaching chunks: {len(false_chunks)}")
-        logger.info(f"Total non-teaching time: {total_false_duration} seconds ({total_false_duration / 60:.2f} minutes)")
+        logger.info(
+            f"Total non-teaching time: {total_false_duration} seconds ({total_false_duration / 60:.2f} minutes)")
 
         # STEP 8: Smooth topic transitions
         logger.info("Smoothing topic transitions...")
         keep_chunks = [chunk for chunk in processed_results if chunk['keep']]
-        smoothed_keep_chunks = smooth_topic_transitions(keep_chunks, min_consecutive_chunks)
+        smoothed_keep_chunks = smooth_topic_transitions(
+            keep_chunks, min_consecutive_chunks)
 
-        processed_results = merge_and_save_topic_smoothed_chunks(processed_results, smoothed_keep_chunks, topic_smooth_chunks_output_path)
-        logger.info(f"Smoothed topic chunks saved at: {topic_smooth_chunks_output_path}")
+        processed_results = merge_and_save_topic_smoothed_chunks(
+            processed_results, smoothed_keep_chunks, topic_smooth_chunks_output_path)
+        logger.info(
+            f"Smoothed topic chunks saved at: {topic_smooth_chunks_output_path}")
 
         # STEP 9: Refine 'keep' flags with topic awareness
         logger.info("Refining 'keep' flags with topic awareness...")
@@ -196,7 +214,8 @@ def run_pipeline():
 
         # STEP 10: Assign cluster IDs and build cluster map
         logger.info("Assigning cluster IDs and building cluster map...")
-        processed_results, cluster_map = assign_cluster_ids_and_build_map(processed_results)
+        processed_results, cluster_map = assign_cluster_ids_and_build_map(
+            processed_results)
 
         try:
             with open(cluster_map_output_path, "w", encoding="utf-8") as f:
@@ -207,13 +226,17 @@ def run_pipeline():
         logger.info("Cluster IDs assigned and map created successfully.")
 
         # STEP 11: Post-Processing
-        subject_weights = subjectwise_importance_matrix[["Content_Type", subject]].dropna()
-        top_n = subject_weights.sort_values(by=subject, ascending=False).head(top_n_content_types)
+        subject_weights = subjectwise_importance_matrix[[
+            "Content_Type", subject]].dropna()
+        top_n = subject_weights.sort_values(
+            by=subject, ascending=False).head(top_n_content_types)
         subject_wise_top_n_content_types = top_n["Content_Type"].tolist()
-        final_processed_results = [chunk for chunk in processed_results if chunk["action_tag"] in subject_wise_top_n_content_types]
-        grouped_chunks = generate_ordered_highlight_blocks(final_processed_results, max_gap_chunks)
+        final_processed_results = [
+            chunk for chunk in processed_results if chunk["action_tag"] in subject_wise_top_n_content_types]
+        grouped_chunks = generate_ordered_highlight_blocks(
+            final_processed_results, max_gap_chunks)
 
-        #STEP 12: Generate highlight video
+        # STEP 12: Generate highlight video
         logger.info("Generating highlight video...")
         generate_final_highlight_video(
             video_path,
@@ -221,8 +244,9 @@ def run_pipeline():
             output_dir,
             highlight_video_name
         )
-        logger.info(f"Highlight video generated successfully at: {os.path.join(output_dir, highlight_video_name)}")
-        
+        logger.info(
+            f"Highlight video generated successfully at: {os.path.join(output_dir, highlight_video_name)}")
+
         logger.info("Pipeline executed successfully")
 
     except Exception as e:
