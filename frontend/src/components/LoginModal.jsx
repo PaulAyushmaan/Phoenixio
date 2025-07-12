@@ -1,46 +1,75 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
 
 const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
-    
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Please enter a valid email';
     }
-    
+
     if (!password) {
       newErrors.password = 'Password is required';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      setIsLoading(true);
-      
-      // Simulate API call - for demo purposes, any email/password works
-      setTimeout(() => {
-        setIsLoading(false);
-        onSuccessfulLogin();
-        // Reset form
-        setEmail('');
-        setPassword('');
-        setErrors({});
-      }, 1000);
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setApiError('');
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('grant_type', 'password');
+      formData.append('username', email);
+      formData.append('password', password);
+
+      const response = await axios.post(
+        'https://603a4dd0fcef.ngrok-free.app/dashboard/api/v1/auth/login',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+
+      console.log(response.data)
+      const { access_token, refresh_token, first_name, last_name, role } = response.data;
+
+      // Store in localStorage
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
+      localStorage.setItem('user_name', `${first_name} ${last_name}`);
+      localStorage.setItem('role', role); 
+
+      onSuccessfulLogin(role); // callback to close modal or navigate
+      setEmail('');
+      setPassword('');
+      setErrors({});
+    } catch (error) {
+      setApiError(
+        error.response?.data?.detail?.[0]?.msg || 'Login failed. Please check your credentials.'
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,14 +88,11 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
           <p className="text-gray-600">Sign in to continue your learning journey</p>
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-700">
-              <strong>Demo Mode:</strong> Use any email and password to login
-            </p>
-          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {apiError && <p className="text-red-500 text-sm">{apiError}</p>}
+
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
@@ -78,9 +104,9 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-lg ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
-                }`}
+                } focus:outline-none focus:ring-2 focus:ring-primary-500`}
                 placeholder="demo@example.com"
                 disabled={isLoading}
               />
@@ -99,9 +125,9 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
+                className={`w-full pl-10 pr-12 py-3 border rounded-lg ${
                   errors.password ? 'border-red-500' : 'border-gray-300'
-                }`}
+                } focus:outline-none focus:ring-2 focus:ring-primary-500`}
                 placeholder="password123"
                 disabled={isLoading}
               />
@@ -122,7 +148,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
               <input type="checkbox" className="rounded text-primary-500 focus:ring-primary-500" />
               <span className="ml-2 text-sm text-gray-600">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-primary-500 hover:text-primary-600 transition-colors">
+            <a href="#" className="text-sm text-primary-500 hover:text-primary-600">
               Forgot password?
             </a>
           </div>
@@ -130,7 +156,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-primary-500 to-accent-500 text-white py-3 rounded-lg font-semibold hover:from-primary-600 hover:to-accent-600 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full bg-gradient-to-r from-primary-500 to-accent-500 text-white py-3 rounded-lg font-semibold hover:from-primary-600 hover:to-accent-600 transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
@@ -141,7 +167,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
             Don't have an account?{' '}
             <button
               onClick={onSwitchToRegister}
-              className="text-primary-500 hover:text-primary-600 font-semibold transition-colors"
+              className="text-primary-500 hover:text-primary-600 font-semibold"
               disabled={isLoading}
             >
               Sign up

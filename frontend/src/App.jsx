@@ -65,16 +65,21 @@ function App() {
     setIsRegisterModalOpen(false);
   };
 
-  const handleSuccessfulLogin = () => {
+  const handleSuccessfulLogin = (role) => {
     setIsLoggedIn(true);
     handleCloseModals();
-    navigateTo('/dashboard');
+
+    if (role === 'admin') {
+      navigateTo('/admin');
+    } else if (role === 'user') {
+      navigateTo('/student');
+    } 
   };
 
   const handleSuccessfulRegister = () => {
     setIsLoggedIn(true);
     handleCloseModals();
-    navigateTo('/dashboard');
+    navigateTo('/login');
   };
 
   const handleLogout = () => {
