@@ -26,95 +26,48 @@ def timestamp_to_seconds(ts):
         return int(h) * 3600 + int(m) * 60 + float(s)
     except:
         return 0.0
+    
+def time_to_seconds(t):
+            """Converts 'HH:MM:SS.xx' to seconds"""
+            t = t.split('.')[0]  # Ignore milliseconds if present
+            h, m, s = map(int, t.split(':'))
+            return h * 3600 + m * 60 + s
 
-def calculate_kept_duration(tagged_chunks):
+def assign_cluster_ids_and_build_map(all_chunks):
     """
-    Calculates total duration of chunks marked as keep=True.
-    Handles both numeric and HH:MM:SS.ms timestamp formats.
+    Assigns cluster IDs to chunks based on topic_name and builds a cluster map.
+
+    Parameters:
+    - all_chunks: List of all transcript chunks with 'topic_name'.
+
+    Returns:
+    - updated_chunks: List with 'cluster_id' added to each chunk.
+    - cluster_map: Dict with cluster_id as key, storing topic_name and chunk_id list.
     """
-    total_duration = 0.0
+    topic_to_cluster_id = {}
+    cluster_map = {}
+    cluster_counter = 1
 
-    for chunk in tagged_chunks:
-        if chunk.get("keep"):
-            try:
-                start = chunk.get("start", 0)
-                end = chunk.get("end", 0)
+    updated_chunks = []
 
-                # Convert if in HH:MM:SS or string format
-                if isinstance(start, str):
-                    start = timestamp_to_seconds(start)
-                if isinstance(end, str):
-                    end = timestamp_to_seconds(end)
+    for chunk in all_chunks:
+        topic = chunk.get("topic_name", "n/a")
 
-                total_duration += max(0, end - start)
-            except Exception as e:
-                print(f"Error processing chunk {chunk.get('chunk_id')}: {e}")
+        if topic not in topic_to_cluster_id and topic != "n/a":
+            topic_to_cluster_id[topic] = cluster_counter
+            cluster_map[cluster_counter] = {
+                "topic_name": topic,
+                "chunk_ids": []
+            }
+            cluster_counter += 1
 
-    return round(total_duration, 2)
-
-print(calculate_kept_duration(result))
-
-def analyze_removed_segments(tagged_chunks):
-    """
-    Analyze non-kept segments:
-    - Total number of non-kept chunks
-    - Total duration of removed content
-    - Number of interruptions (contiguous non-kept blocks)
-    """
-    removed_duration = 0.0
-    removed_chunks = 0
-    interruptions = 0
-    in_removal_block = False
-
-    for chunk in tagged_chunks:
-        keep = chunk.get("keep", False)
-
-        if not keep:
-            removed_chunks += 1
-
-            # Parse timestamps
-            start = chunk.get("start", 0)
-            end = chunk.get("end", 0)
-
-            if isinstance(start, str):
-                start = timestamp_to_seconds(start)
-            if isinstance(end, str):
-                end = timestamp_to_seconds(end)
-
-            removed_duration += max(0, end - start)
-
-            # Count interruption block
-            if not in_removal_block:
-                interruptions += 1
-                in_removal_block = True
+        if topic != "n/a":
+            cluster_id = topic_to_cluster_id[topic]
+            chunk["cluster_id"] = cluster_id
+            cluster_map[cluster_id]["chunk_ids"].append(chunk["chunk_id"])
         else:
-            in_removal_block = False
+            chunk["cluster_id"] = None
 
-    return {
-        "removed_chunks": removed_chunks,
-        "removed_duration_sec": round(removed_duration, 2),
-        "interruptions": interruptions
-    }
+        updated_chunks.append(chunk)
 
-print(analyze_removed_segments(result))
-
-def get_segment_decisions(tagged_chunks):
-    """
-    Returns a list of time intervals with KEEP / CUT label.
-    Example:
-    00:00:00 - 00:00:15 KEEP
-    00:00:15 - 00:00:30 CUT
-    """
-    output = []
-
-    for chunk in tagged_chunks:
-        start = chunk.get("start", "0")
-        end = chunk.get("end", "0")
-        keep = chunk.get("keep", False)
-
-        label = "KEEP" if keep else "CUT"
-        output.append(f"{start} - {end} {label}")
-
-    return output
-
-# print(get_segment_decisions(result))
+    return updated_chunks, cluster_map
