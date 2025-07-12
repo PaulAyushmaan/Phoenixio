@@ -1,6 +1,6 @@
 import cloudinary
 import cloudinary.uploader
-from repositories.lecture_repo import LectureRepository
+from repositories.lecture_repository import LectureRepository
 from dependencies.configuration import AppConfiguration
 
 cloudinary.config(
@@ -13,26 +13,40 @@ cloudinary.config(
 
 class LectureService:
     @staticmethod
-    def upload_video(file_obj, uploadLecture):
+    def upload_video(file_obj, upload_lecture, ppt_file, course):
         # Upload to Cloudinary
+        print(file_obj)  # Should be a file-like object
+        print(file_obj.read(10))  # Should print some bytes, not empty
+        file_obj.seek(0)  # Reset pointer after reading
         result = cloudinary.uploader.upload_large(
             file=file_obj,
             resource_type="video",
             chunk_size=6 * 1024 * 1024,
             folder="lectures",
-            public_id=uploadLecture.title.replace(" ", "_")
+            public_id=upload_lecture.lecture_title.replace(" ", "_")
         )
 
         video_url = result["secure_url"]
 
+        ppt_file.file.seek(0)
+        ppt_result = cloudinary.uploader.upload(
+            file=ppt_file.file,
+            resource_type="raw",
+            folder="slides",
+            public_id=upload_lecture.lecture_title.replace(
+                " ", "_") + "_slides",
+            filename=ppt_file.filename
+        )
+        ppt_url = ppt_result["secure_url"]
+
         # Save to DB
         lecture = LectureRepository.create(
-            title=uploadLecture.title,
-            course=uploadLecture.course,
-            subject=uploadLecture.subject,
-            tags=uploadLecture.tags,
-            description=uploadLecture.description,
-            original_url=video_url,
+            video_title=upload_lecture.lecture_title,
+            course=course,
+            subject=upload_lecture.subject,
+            description=upload_lecture.description,
+            video_url=video_url,
+            ppt_url=ppt_url,
             status="processing"
         )
 

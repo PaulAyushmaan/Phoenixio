@@ -271,11 +271,12 @@ class AuthHandler:
             user_id=str(user.id))
         first_name = user.first_name if user.first_name else ""
         last_name = user.last_name if user.last_name else ""
+        role = user.role if user.role else "user"
         expires_at = datetime.now(IST) + access_token_expires
         logger.info(
             f"User with {user.email} {access_token} {refresh_token}"
-            f"{first_name} {last_name} {expires_at} logged in successfully")
-        return access_token, refresh_token, first_name, last_name, expires_at
+            f"{first_name} {last_name} {expires_at} {role} logged in successfully")
+        return access_token, refresh_token, first_name, last_name, role, expires_at
 
     @staticmethod
     def refresh_user_token(token_data: RefreshTokenRequest) -> TokenRefresh:

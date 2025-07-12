@@ -48,6 +48,7 @@ class Token(BaseModel):
     token_type: str
     first_name: str
     last_name: str
+    role: Optional[str] = "user"
     expires_at: datetime
 
 

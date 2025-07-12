@@ -40,14 +40,16 @@ def login(form_data: security.OAuth2PasswordRequestForm = Depends()) -> Token:
     Returns:
         Token: Access token and refresh token.
     """
-    access_token, refresh_token, first_name, last_name, expires_at = AuthHandler.login_user(
+    access_token, refresh_token, first_name, last_name, role, expires_at = AuthHandler.login_user(
         form_data)
+    logger.info(role)
     return Token(
         access_token=access_token,
         refresh_token=refresh_token,
         token_type="bearer",
         first_name=first_name,
         last_name=last_name,
+        role=role,
         expires_at=expires_at
     )
 

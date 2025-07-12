@@ -14,3 +14,12 @@ class CourseDTO(BaseModel):
         None, description="Description of the course", max_length=1000)
     subject: Optional[str] = Field(
         None, description="Subject associated with the course")
+
+
+class LectureOut(BaseModel):
+    id: str
+    title: str
+    course: str
+    subject: str | None
+    original_url: str
+    status: str

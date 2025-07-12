@@ -1,11 +1,9 @@
 # Standard library imports
-from typing import Any
 
 # Third-party library imports
-from fastapi import APIRouter, Depends, status, security, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException
 
 # Local application imports
-from dependencies.exceptions import UserNotFoundException
 from dependencies.logger import logger
 from dto.course_dto import CourseDTO
 from dto.common_dto import APISuccessResponse
@@ -45,16 +43,17 @@ def create_course(course_data: CourseDTO,
 
 
 @course_router.get("/course_list", response_model=APISuccessResponse, tags=["Courses"])
-def get_course_list(user: UserModel = Depends(
-        AuthHandler.get_current_active_user)) -> APISuccessResponse:
+def get_course_list() -> APISuccessResponse:
     """ Get a list of all courses.
 
     Returns:
         APISuccessResponse: Response containing success status and result.
     """
     try:
-        result = CourseHandler.get_all_courses(str(user.id))
-        return APISuccessResponse(http_status_code=status.HTTP_200_OK, message="Successfully fetched course list", result=result)
+        result = CourseHandler.get_all_courses()
+        return APISuccessResponse(http_status_code=status.HTTP_200_OK,
+                                  message="Successfully fetched course list",
+                                  result=result)
     except Exception as e:
         logger.error(f"Error getting course list: {e}")
         raise HTTPException(
