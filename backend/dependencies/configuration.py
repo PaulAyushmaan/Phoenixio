@@ -25,3 +25,6 @@ class AppConfiguration:
     SMTP_USER = os.getenv("SMTP_USER")
     SMTP_CC_USER = os.getenv("SMTP_CC_USER")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+    CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+    CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
+    CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")

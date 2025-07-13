@@ -112,37 +112,6 @@ const DashboardApp = ({
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <button
-                onClick={() => navigateTo('/dashboard')}
-                className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all"
-              >
-                <Home className="h-4 w-4" />
-                <span className="hidden md:inline">Dashboard</span>
-              </button>
-
-              <button
-                onClick={() => handleUserTypeChange('student')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg transition-all ${
-                  userType === 'student'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Student</span>
-              </button>
-
-              <button
-                onClick={() => handleUserTypeChange('admin')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg transition-all ${
-                  userType === 'admin'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                <Shield className="h-4 w-4" />
-                <span className="hidden sm:inline">Admin</span>
-              </button>
 
               <button
                 onClick={handleLogout}

@@ -4,6 +4,7 @@ from pydub import AudioSegment
 
 logger = logging.getLogger(__name__)
 
+
 class AudioSplitter:
     def __init__(self, audio_input_path, audio_output_path, segment_length=20):
         self.audio_input_path = audio_input_path

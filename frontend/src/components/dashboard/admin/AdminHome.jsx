@@ -94,11 +94,11 @@ const AdminHome = () => {
         return `${baseClasses} bg-gray-100 text-gray-800`;
     }
   };
-
+  const user_name=localStorage.getItem('user_name') || 'Alex';
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, Admin! 👋</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, Admin {user_name}! 👋</h1>
         <p className="text-gray-600">Here's what's happening with your platform today.</p>
       </div>
 

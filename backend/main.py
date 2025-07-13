@@ -15,6 +15,8 @@ from dependencies.middleware_log import log_middleware
 from routes.user_router import (
     auth_router,
 )
+from routes.course_router import course_router
+from routes.lecture_router import lecture_router
 
 # Initialize FastAPI app
 app = FastAPI(title="Phoenixio API")
@@ -43,6 +45,8 @@ def read_root():
 
 # Register routers
 app.include_router(auth_router)
+app.include_router(course_router)
+app.include_router(lecture_router)
 
 handler = Mangum(app)
 
