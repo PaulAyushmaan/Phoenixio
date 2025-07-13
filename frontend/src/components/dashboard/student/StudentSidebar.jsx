@@ -1,24 +1,16 @@
 import React from 'react';
 import { Home, BookOpen, ShoppingBag, User, Settings, Flame, Trophy } from 'lucide-react';
-import { StudentView } from './StudentDashboard';
 
-interface StudentSidebarProps {
-  currentView: StudentView;
-  onViewChange: (view: StudentView) => void;
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView, onViewChange, isOpen, onToggle }) => {
+const StudentSidebar = ({ currentView, onViewChange, isOpen, onToggle }) => {
   const menuItems = [
-    { id: 'dashboard' as StudentView, label: 'Dashboard', icon: Home },
-    { id: 'courses' as StudentView, label: 'My Courses', icon: BookOpen },
-    { id: 'all-courses' as StudentView, label: 'Browse Courses', icon: ShoppingBag },
-    { id: 'profile' as StudentView, label: 'Profile', icon: User },
-    { id: 'settings' as StudentView, label: 'Settings', icon: Settings },
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'courses', label: 'My Courses', icon: BookOpen },
+    { id: 'all-courses', label: 'Browse Courses', icon: ShoppingBag },
+    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
-  const handleMenuClick = (view: StudentView) => {
+  const handleMenuClick = (view) => {
     onViewChange(view);
     // Close sidebar on mobile after selection
     if (window.innerWidth < 1024) {

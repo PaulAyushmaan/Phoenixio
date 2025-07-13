@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Clock, BookOpen, TrendingUp, Calendar, Star, ChevronRight } from 'lucide-react';
+import { Play, Clock, BookOpen, TrendingUp, Calendar, Star, ChevronRight, ShoppingBag } from 'lucide-react';
 
 interface StudentHomeProps {
   onViewCourse: (courseId: string) => void;
@@ -88,6 +88,31 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
     }
   ];
 
+  const featuredCourses = [
+    {
+      id: 'machine-learning',
+      title: 'Machine Learning Fundamentals',
+      instructor: 'Dr. Alex Thompson',
+      price: 349,
+      originalPrice: 449,
+      rating: 4.8,
+      students: 2134,
+      thumbnail: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=300',
+      bestseller: true
+    },
+    {
+      id: 'advanced-physics',
+      title: 'Advanced Quantum Physics',
+      instructor: 'Dr. Sarah Johnson',
+      price: 299,
+      originalPrice: 399,
+      rating: 4.9,
+      students: 2847,
+      thumbnail: 'https://images.pexels.com/photos/6256065/pexels-photo-6256065.jpeg?auto=compress&cs=tinysrgb&w=300',
+      bestseller: false
+    }
+  ];
+
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high':
@@ -127,7 +152,7 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
       <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Recent Lectures */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Continue Learning</h2>
               <button className="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1">
@@ -169,6 +194,52 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
               ))}
             </div>
           </div>
+
+          {/* Featured Courses */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">Featured Courses</h2>
+              <button className="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1">
+                <span>Browse All</span>
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              {featuredCourses.map((course) => (
+                <div
+                  key={course.id}
+                  className="border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  onClick={() => onViewCourse(course.id)}
+                >
+                  <div className="relative mb-3">
+                    <img
+                      src={course.thumbnail}
+                      alt={course.title}
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
+                    {course.bestseller && (
+                      <span className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-2 py-1 rounded text-xs font-bold">
+                        BESTSELLER
+                      </span>
+                    )}
+                    <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm rounded px-2 py-1">
+                      <span className="text-white text-sm font-bold">${course.price}</span>
+                    </div>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">{course.title}</h3>
+                  <p className="text-xs text-gray-600 mb-2">{course.instructor}</p>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                      <span>{course.rating}</span>
+                    </div>
+                    <span>{course.students.toLocaleString()} students</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Sidebar */}
@@ -203,6 +274,10 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
                 className="w-full bg-gradient-to-r from-primary-500 to-accent-500 text-white py-3 rounded-xl font-semibold hover:from-primary-600 hover:to-accent-600 transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <BookOpen className="h-5 w-5" />
+                <span>My Courses</span>
+              </button>
+              <button className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2">
+                <ShoppingBag className="h-5 w-5" />
                 <span>Browse Courses</span>
               </button>
               <button className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2">

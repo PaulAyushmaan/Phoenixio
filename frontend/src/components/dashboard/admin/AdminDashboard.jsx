@@ -9,19 +9,12 @@ import Analytics from './Analytics';
 import Settings from './Settings';
 import LectureDetail from './LectureDetail';
 
-export type AdminView = 'dashboard' | 'upload' | 'lectures' | 'create-course' | 'manage-courses' | 'analytics' | 'settings' | 'lecture-detail';
+const AdminDashboard = ({ isSidebarOpen, onSidebarToggle }) => {
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [selectedLectureId, setSelectedLectureId] = useState(null);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-interface AdminDashboardProps {
-  isSidebarOpen: boolean;
-  onSidebarToggle: () => void;
-}
-
-const AdminDashboard: React.FC<AdminDashboardProps> = ({ isSidebarOpen, onSidebarToggle }) => {
-  const [currentView, setCurrentView] = useState<AdminView>('dashboard');
-  const [selectedLectureId, setSelectedLectureId] = useState<string | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-
-  const handleViewLectureDetail = (lectureId: string) => {
+  const handleViewLectureDetail = (lectureId) => {
     setSelectedLectureId(lectureId);
     setCurrentView('lecture-detail');
   };
@@ -30,7 +23,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isSidebarOpen, onSideba
     setCurrentView('create-course');
   };
 
-  const handleEditCourse = (courseId: string) => {
+  const handleEditCourse = (courseId) => {
     setSelectedCourseId(courseId);
     setCurrentView('create-course'); // Reuse create course component for editing
   };

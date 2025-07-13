@@ -18,7 +18,7 @@ function App() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentRoute, setCurrentRoute] = useState('');
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Hash routing logic
@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   // Navigation helpers
-  const navigateTo = (path: string) => {
+  const navigateTo = (path) => {
     window.location.hash = path;
   };
 
@@ -65,16 +65,21 @@ function App() {
     setIsRegisterModalOpen(false);
   };
 
-  const handleSuccessfulLogin = () => {
+  const handleSuccessfulLogin = (role) => {
     setIsLoggedIn(true);
     handleCloseModals();
-    navigateTo('/dashboard');
+
+    if (role === 'admin') {
+      navigateTo('/admin');
+    } else if (role === 'user') {
+      navigateTo('/student');
+    } 
   };
 
   const handleSuccessfulRegister = () => {
     setIsLoggedIn(true);
     handleCloseModals();
-    navigateTo('/dashboard');
+    navigateTo('/login');
   };
 
   const handleLogout = () => {
@@ -82,12 +87,12 @@ function App() {
     navigateTo('/');
   };
 
-  const handleViewCourse = (courseId: string) => {
+  const handleViewCourse = (courseId) => {
     setSelectedCourseId(courseId);
     navigateTo(`/course/${courseId}`);
   };
 
-  const handleEnrollCourse = (courseId: string) => {
+  const handleEnrollCourse = (courseId) => {
     if (!isLoggedIn) {
       // Store the course they want to enroll in
       setSelectedCourseId(courseId);
