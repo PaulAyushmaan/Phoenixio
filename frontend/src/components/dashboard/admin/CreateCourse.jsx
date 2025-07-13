@@ -1,44 +1,18 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Upload, X, Plus, Save, Eye, Video, FileText, Image, Link } from 'lucide-react';
+import API_BASE_URL from '../../../config';
 
 const CreateCourse = () => {
   const [courseData, setCourseData] = useState({
-    title: '',
-    subtitle: '',
-    description: '',
-    category: '',
-    level: '',
-    language: 'English',
-    price: '',
-    originalPrice: '',
-    duration: '',
-    prerequisites: [''],
-    learningOutcomes: [''],
-    tags: '',
-    status: 'draft'
+    title: '', subtitle: '', description: '', category: '', level: '',
+    language: 'English', price: '', originalPrice: '', duration: '',
+    prerequisites: [''], learningOutcomes: [''], tags: '', status: 'draft'
   });
 
   const [courseImage, setCourseImage] = useState(null);
   const [courseVideo, setCourseVideo] = useState(null);
-  const [curriculum, setCurriculum] = useState([
-    {
-      id: 1,
-      title: '',
-      description: '',
-      lectures: [
-        {
-          id: 1,
-          title: '',
-          type: 'video',
-          duration: '',
-          content: null,
-          description: '',
-          resources: []
-        }
-      ]
-    }
-  ]);
-
+  const [curriculum, setCurriculum] = useState([{ id: 1, title: '', description: '', lectures: [{ id: 1, title: '', type: 'video', duration: '', content: null, description: '', resources: [] }] }]);
   const [activeTab, setActiveTab] = useState('basic');
   const [isUploading, setIsUploading] = useState(false);
 
@@ -75,66 +49,26 @@ const CreateCourse = () => {
   };
 
   const addSection = () => {
-    setCurriculum(prev => [
-      ...prev,
-      {
-        id: Date.now(),
-        title: '',
-        description: '',
-        lectures: [
-          {
-            id: Date.now(),
-            title: '',
-            type: 'video',
-            duration: '',
-            content: null,
-            description: '',
-            resources: []
-          }
-        ]
-      }
-    ]);
+    setCurriculum(prev => ([...prev, {
+      id: Date.now(), title: '', description: '',
+      lectures: [{ id: Date.now(), title: '', type: 'video', duration: '', content: null, description: '', resources: [] }]
+    }]));
   };
 
   const addLecture = (sectionIndex) => {
-    setCurriculum(prev => prev.map((section, index) => 
-      index === sectionIndex 
-        ? {
-            ...section,
-            lectures: [
-              ...section.lectures,
-              {
-                id: Date.now(),
-                title: '',
-                type: 'video',
-                duration: '',
-                content: null,
-                description: '',
-                resources: []
-              }
-            ]
-          }
-        : section
-    ));
+    setCurriculum(prev => prev.map((section, index) => index === sectionIndex
+      ? { ...section, lectures: [...section.lectures, { id: Date.now(), title: '', type: 'video', duration: '', content: null, description: '', resources: [] }] }
+      : section));
   };
 
   const updateSection = (sectionIndex, field, value) => {
-    setCurriculum(prev => prev.map((section, index) => 
-      index === sectionIndex ? { ...section, [field]: value } : section
-    ));
+    setCurriculum(prev => prev.map((section, index) => index === sectionIndex ? { ...section, [field]: value } : section));
   };
 
   const updateLecture = (sectionIndex, lectureIndex, field, value) => {
-    setCurriculum(prev => prev.map((section, sIndex) => 
-      sIndex === sectionIndex 
-        ? {
-            ...section,
-            lectures: section.lectures.map((lecture, lIndex) => 
-              lIndex === lectureIndex ? { ...lecture, [field]: value } : lecture
-            )
-          }
-        : section
-    ));
+    setCurriculum(prev => prev.map((section, sIndex) => sIndex === sectionIndex
+      ? { ...section, lectures: section.lectures.map((lecture, lIndex) => lIndex === lectureIndex ? { ...lecture, [field]: value } : lecture) }
+      : section));
   };
 
   const handleFileUpload = (file, type) => {
@@ -145,22 +79,84 @@ const CreateCourse = () => {
     }
   };
 
-  const handleSaveDraft = () => {
-    setIsUploading(true);
-    // Simulate save
-    setTimeout(() => {
-      setIsUploading(false);
-      alert('Course saved as draft!');
-    }, 1000);
+  const buildCoursePayload = () => ({
+    course_title: courseData.title,
+    course_subtitle: courseData.subtitle,
+    description: courseData.description,
+    subject: courseData.category,
+    level: courseData.level,
+    language: courseData.language,
+    price: courseData.price,
+    original_price: courseData.originalPrice,
+    duration: courseData.duration,
+    status: courseData.status,
+    tags: courseData.tags,
+    prerequisites: courseData.prerequisites,
+    learning_outcomes: courseData.learningOutcomes,
+    curriculum,
+  });
+
+  const AUTH_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIzOTQ1NDcsInN1YiI6IjY4NzIxZjYxMWRlODgyYmFiMDNjZDAyMSIsInR5cGUiOiJhY2Nlc3MifQ.RtAD54Th6ZReSvBT34brF2GPIqsXRS9RxL8XFke1A7E';
+
+  const buildFormData = () => {
+    const formData = new FormData();
+    formData.append('title', courseData.title);
+    formData.append('subtitle', courseData.subtitle);
+    formData.append('description', courseData.description);
+    formData.append('category', courseData.category);
+    formData.append('level', courseData.level);
+    formData.append('language', courseData.language);
+    formData.append('price', courseData.price);
+    formData.append('original_price', courseData.originalPrice);
+    formData.append('duration', courseData.duration);
+    formData.append('status', courseData.status);
+    formData.append('tags', courseData.tags);
+    formData.append('prerequisites', JSON.stringify(courseData.prerequisites));
+    formData.append('learning_outcomes', JSON.stringify(courseData.learningOutcomes));
+    formData.append('curriculum', JSON.stringify(curriculum));
+    if (courseImage) formData.append('thumbnail', courseImage);
+    if (courseVideo) formData.append('preview_video', courseVideo);
+    return formData;
   };
 
-  const handlePublishCourse = () => {
-    setIsUploading(true);
-    // Simulate publish
-    setTimeout(() => {
+  const handleSaveDraft = async () => {
+    try {
+      setIsUploading(true);
+      const payload = buildCoursePayload();
+      await axios.post(`${API_BASE_URL}/dashboard/api/v1/courses/course_create`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_TOKEN,
+          'accept': 'application/json',
+        }
+      });
+      alert('Course saved as draft!');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to save course.');
+    } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handlePublishCourse = async () => {
+    try {
+      setIsUploading(true);
+      const payload = { ...buildCoursePayload(), status: 'published' };
+      await axios.post(`${API_BASE_URL}/dashboard/api/v1/courses/course_create`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_TOKEN,
+          'accept': 'application/json',
+        }
+      });
       alert('Course published successfully!');
-    }, 2000);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to publish course.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -295,7 +291,7 @@ const CreateCourse = () => {
                   {/* Course Image */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Course Thumbnail *
+                      Course Thumbnail 
                     </label>
                     <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-400 transition-colors">
                       {courseImage ? (
