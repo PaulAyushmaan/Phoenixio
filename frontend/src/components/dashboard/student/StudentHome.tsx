@@ -125,11 +125,11 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-
+  const user_name=localStorage.getItem('user_name') || 'Alex';
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, Alex! 👋</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, {user_name}! 👋</h1>
         <p className="text-gray-600">Great job catching up! Keep up the momentum and stay ahead of your studies.</p>
       </div>
 

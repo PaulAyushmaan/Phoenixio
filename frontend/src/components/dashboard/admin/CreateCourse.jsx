@@ -96,7 +96,6 @@ const CreateCourse = () => {
     curriculum,
   });
 
-  const AUTH_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIzOTQ1NDcsInN1YiI6IjY4NzIxZjYxMWRlODgyYmFiMDNjZDAyMSIsInR5cGUiOiJhY2Nlc3MifQ.RtAD54Th6ZReSvBT34brF2GPIqsXRS9RxL8XFke1A7E';
 
   const buildFormData = () => {
     const formData = new FormData();
@@ -121,12 +120,13 @@ const CreateCourse = () => {
 
   const handleSaveDraft = async () => {
     try {
+      const token = localStorage.getItem('access_token');
       setIsUploading(true);
       const payload = buildCoursePayload();
       await axios.post(`${API_BASE_URL}/dashboard/api/v1/courses/course_create`, payload, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN,
+          'Authorization': `Bearer ${token}`,
           'accept': 'application/json',
         }
       });
@@ -141,12 +141,13 @@ const CreateCourse = () => {
 
   const handlePublishCourse = async () => {
     try {
+      const token = localStorage.getItem('access_token');
       setIsUploading(true);
       const payload = { ...buildCoursePayload(), status: 'published' };
       await axios.post(`${API_BASE_URL}/dashboard/api/v1/courses/course_create`, payload, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN,
+          'Authorization': `Bearer ${token}`,
           'accept': 'application/json',
         }
       });
