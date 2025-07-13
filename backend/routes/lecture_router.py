@@ -5,10 +5,10 @@ from handlers.auth_handlers import AuthHandler
 from models.user_model import User as UserModel
 from models.course_model import CourseModel
 
-lecture_router = APIRouter(prefix="/lectures", tags=["lectures"])
+lecture_router = APIRouter(prefix="/dashboard/api/v1/lectures", tags=["lectures"])
 
 
-@lecture_router.post("/", response_model=LectureOut)
+@lecture_router.post("/upload", response_model=LectureOut)
 async def upload_lecture(
     upload_lecture: VideoUploadDTO = Depends(),
     file: UploadFile = File(...),
