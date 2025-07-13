@@ -1,4 +1,4 @@
-# Phoenixio
+# Phoenixio – Rise. Learn. Succeed.
 
 Phoenixio is an AI-powered educational platform that transforms lengthy lecture videos into concise, digestible highlights. It helps students catch up on missed lectures, efficiently review course material, and reinforce complex concepts in a fraction of the time.
 
