@@ -1,4 +1,4 @@
-# Phoenixio – Rise. Learn. Succeed.
+# Phoenixio - Automated Recap Video Generator for Smarter Learning
 
 Phoenixio is an AI-powered educational platform that transforms lengthy lecture videos into concise, digestible highlights. It helps students catch up on missed lectures, efficiently review course material, and reinforce complex concepts in a fraction of the time.
 
@@ -263,7 +263,7 @@ celery -A celery_app worker -l info -Q meta,ml
 
 ## 📄 License
 
-Copyright (c) 2023 Phoenixio
+Copyright (c) 2025 Phoenixio
 
 This project is licensed under the Phoenixio Proprietary License - see the [LICENSE](LICENSE) file for details.
 
