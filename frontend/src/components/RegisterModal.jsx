@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { X, Mail, Lock, User, Eye, EyeOff, Phone } from 'lucide-react';
+import  API_BASE_URL from '../config';
 
 const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onSuccessfulRegister }) => {
   const [formData, setFormData] = useState({
@@ -67,7 +68,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onSuccessfulRegister 
 
     try {
       const response = await axios.post(
-        'https://603a4dd0fcef.ngrok-free.app/dashboard/api/v1/auth/register',
+        `${API_BASE_URL}/dashboard/api/v1/auth/register`,
         payload,
         { headers: { 'Content-Type': 'application/json' } }
       );

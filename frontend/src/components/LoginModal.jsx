@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
-
+import  API_BASE_URL from '../config';
+console.log(API_BASE_URL)
 const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,7 +43,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onSuccessfulLogin }) 
       formData.append('password', password);
 
       const response = await axios.post(
-        'https://603a4dd0fcef.ngrok-free.app/dashboard/api/v1/auth/login',
+        `${API_BASE_URL}/dashboard/api/v1/auth/login`,
         formData,
         {
           headers: {
