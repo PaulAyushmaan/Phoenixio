@@ -1,7 +1,46 @@
 from dotenv import load_dotenv
 import pandas as pd
-
+import requests
+import os
 load_dotenv()
+
+
+def download_cloudinary_video(video_url: str, output_path: str = "downloaded_video") -> str:
+    """
+    Downloads a video from Cloudinary public URL
+
+    Args:
+        video_url: Cloudinary public URL of the video
+        output_path: Where to save the video (without extension)
+
+    Returns:
+        Path to the downloaded video file
+
+    Raises:
+        Exception if download fails
+    """
+    try:
+        # Get the file extension from URL
+        file_ext = os.path.splitext(video_url.split('/')[-1])[1]
+        output_file = f"{output_path}{file_ext}"
+
+        print(f"Downloading video from {video_url}...")
+
+        with requests.get(video_url, stream=True) as r:
+            r.raise_for_status()
+            with open(output_file, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+        print(f"Video saved to {output_file}")
+        return output_file
+
+    except Exception as e:
+        print(f"Failed to download video: {str(e)}")
+        raise
+
+
+
 
 # Define all paths clearly
 video_path = "data/test_01/eng_01.mp4"

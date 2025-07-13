@@ -2,6 +2,8 @@ import json
 import os
 from pathlib import Path
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+
+
 def smooth_topic_transitions(keep_chunks, min_consecutive_chunks):
     """
     Smooth topic transitions by enforcing a minimum number of consecutive chunks before accepting a topic switch.
@@ -53,6 +55,7 @@ def smooth_topic_transitions(keep_chunks, min_consecutive_chunks):
 
     return smoothed_chunks
 
+
 def merge_and_save_topic_smoothed_chunks(all_chunks, smoothed_keep_chunks, output_path):
     """
     Merge smoothed keep chunks back into all chunks and save as JSON.
@@ -63,7 +66,8 @@ def merge_and_save_topic_smoothed_chunks(all_chunks, smoothed_keep_chunks, outpu
     - output_path: Path to save the updated JSON file.
     """
     # Build lookup dictionary from smoothed keep chunks
-    smoothed_lookup = {chunk["chunk_id"]: chunk for chunk in smoothed_keep_chunks}
+    smoothed_lookup = {chunk["chunk_id"]
+        : chunk for chunk in smoothed_keep_chunks}
 
     updated_chunks = []
 
@@ -81,6 +85,7 @@ def merge_and_save_topic_smoothed_chunks(all_chunks, smoothed_keep_chunks, outpu
         json.dump(updated_chunks, f, indent=2)
 
     return updated_chunks
+
 
 def refine_keep(all_chunks):
     """
@@ -132,6 +137,7 @@ def refine_keep(all_chunks):
 
     return updated_chunks
 
+
 def generate_ordered_highlight_blocks(filtered_chunks, max_gap_chunks=1):
     """
     Groups filtered chunks into flow-respecting continuous blocks based on chunk order.
@@ -167,7 +173,8 @@ def generate_ordered_highlight_blocks(filtered_chunks, max_gap_chunks=1):
 
         if same_cluster and small_gap:
             current_block["end_chunk_id"] = curr["chunk_id"]
-            current_block["segments"].append({"start": curr["start"], "end": curr["end"]})
+            current_block["segments"].append(
+                {"start": curr["start"], "end": curr["end"]})
         else:
             blocks.append(current_block)
             current_block = {
@@ -180,6 +187,7 @@ def generate_ordered_highlight_blocks(filtered_chunks, max_gap_chunks=1):
 
     blocks.append(current_block)
     return blocks
+
 
 def _time_str_to_seconds(time_str):
     """
@@ -222,7 +230,7 @@ def _time_str_to_seconds(time_str):
 
 #     # Step 3: Concatenate all temp files into one
 #     temp_concat_path = os.path.join(output_dir, "final_concat_list.txt")
-    
+
 #     try:
 #         with open(temp_concat_path, "w") as f:
 #             for file in temp_files:
@@ -247,6 +255,7 @@ def _time_str_to_seconds(time_str):
 
 #     return 0
 
+
 def generate_final_highlight_video(video_path, highlight_blocks, output_dir, output_filename):
     """
     Creates a single final highlight video by flattening all highlight blocks.
@@ -264,8 +273,10 @@ def generate_final_highlight_video(video_path, highlight_blocks, output_dir, out
     os.makedirs(output_dir, exist_ok=True)
 
     # Step 1: Flatten all segments and sort by start time
-    all_segments = [segment for block in highlight_blocks for segment in block['segments']]
-    all_segments_sorted = sorted(all_segments, key=lambda seg: _time_str_to_seconds(seg["start"]))
+    all_segments = [
+        segment for block in highlight_blocks for segment in block['segments']]
+    all_segments_sorted = sorted(
+        all_segments, key=lambda seg: _time_str_to_seconds(seg["start"]))
 
     # Step 2: Cut all segments into temporary files
     temp_files = []
@@ -285,14 +296,16 @@ def generate_final_highlight_video(video_path, highlight_blocks, output_dir, out
     try:
         with open(temp_concat_path, "w") as f:
             for file in temp_files:
-                normalized_path = Path(file).as_posix()  # Converts to forward slashes always
+                # Converts to forward slashes always
+                normalized_path = Path(file).as_posix()
                 f.write(f"file '{normalized_path}'\n")
     except IOError as e:
         raise RuntimeError(f"Failed to write temp concat file: {e}")
 
     final_output_path = os.path.join(output_dir, output_filename)
 
-    result = os.system(f"ffmpeg -f concat -safe 0 -i \"{temp_concat_path}\" -c copy \"{final_output_path}\" -y")
+    result = os.system(
+        f"ffmpeg -f concat -safe 0 -i \"{temp_concat_path}\" -c copy \"{final_output_path}\" -y")
     if result != 0:
         raise RuntimeError("ffmpeg concat command failed.")
 
