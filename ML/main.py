@@ -1,6 +1,6 @@
 from pipeline import run_pipeline
 import logging
-from ML.utility import setup_logging
+from utility import setup_logging
 
 logger = logging.getLogger(__name__)
 

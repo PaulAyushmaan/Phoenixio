@@ -1,4 +1,6 @@
 import re
+
+
 def system_prompt_topic_tagging():
     return """You are an expert teaching content classifier.
 
@@ -33,6 +35,7 @@ Your final output format must strictly follow this structure:
 - Confidence_Score: [Float value between 0.0 and 1.0]
 """
 
+
 def build_user_prompt_topic_tagging(chunk_text, topic_list):
     topics_text = "\n".join(topic_list)
     return f"""You are given a transcript segment from a machine learning lecture.
@@ -52,8 +55,9 @@ Remember:
 - Return only the classification fields exactly in the specified format. No extra commentary.
 """
 
+
 def system_prompt_all_topics():
-    return"""You are an expert teaching assistant and curriculum summarizer.
+    return """You are an expert teaching assistant and curriculum summarizer.
 
         Your role is to analyze grouped slide content and output 1 to 3 concise topic titles that accurately reflect the specific subjects or sub-topics being directly taught in the provided content.
 
@@ -72,6 +76,7 @@ def system_prompt_all_topics():
         - Not be preceded by phrases like “Here are the topics:” or “These are the titles:”.
         - Not be numbered or bulleted."""
 
+
 def build_user_prompt_all_topics(segment_slides):
     return f"""Below is a set of teaching slides grouped together. Extract up to 3 distinct topic titles that best summarize the primary concepts explicitly covered in these slides.
 
@@ -87,6 +92,7 @@ def build_user_prompt_all_topics(segment_slides):
     --- END ---
     """
 
+
 def system_prompt_final_topics():
     return """You are a curriculum summarization expert.
 
@@ -101,6 +107,8 @@ Rules:
 - Do not number, bullet, or repeat titles.
 - Return only the final topic titles, one per line, nothing else.
 """
+
+
 def build_user_prompt_final_topics(topic_list):
     topics_text = "\n".join(str(item) for item in list(topic_list))
     return f"""You are given a list of machine learning sub-topic names. Your job is to reduce them into 6–8 clear, concise, non-overlapping high-level topic titles for a video highlight summary.
@@ -113,6 +121,8 @@ def build_user_prompt_final_topics(topic_list):
     - Do not add any other text.
     - Return only the final topic titles, one per line.
     """
+
+
 def parse_llm_output_to_list(llm_text_output):
     """
     Parses plain LLM output (one topic per line) into a Python list.
@@ -126,8 +136,10 @@ def parse_llm_output_to_list(llm_text_output):
     if not llm_text_output or not isinstance(llm_text_output, str):
         return []
 
-    topics = [line.strip() for line in llm_text_output.strip().splitlines() if line.strip()]
+    topics = [line.strip()
+              for line in llm_text_output.strip().splitlines() if line.strip()]
     return topics
+
 
 def parse_topic_tagged_llm_response(llm_output, chunk_id, chunk_start, chunk_end, chunk_text):
     """
@@ -165,10 +177,12 @@ def parse_topic_tagged_llm_response(llm_output, chunk_id, chunk_start, chunk_end
     for key, pattern in patterns.items():
         match = re.search(pattern, llm_output, re.IGNORECASE)
         if match:
-            fields[key if key != "content_type" else "keep"] = match.group(1).strip()
+            fields[key if key != "content_type" else "keep"] = match.group(
+                1).strip()
 
     # Map content_type logic
-    fields["keep"] = fields["keep"].lower() == "teaching_content" if fields.get("keep") else False
+    fields["keep"] = fields["keep"].lower(
+    ) == "teaching_content" if fields.get("keep") else False
 
     if not fields["keep"]:
         fields["action_tag"] = "n/a"
@@ -178,7 +192,8 @@ def parse_topic_tagged_llm_response(llm_output, chunk_id, chunk_start, chunk_end
         fields["action_tag"] = fields.get("action_tag", "n/a")
         fields["topic_name"] = fields.get("topic_name", "n/a")
         try:
-            fields["confidence_score"] = float(fields.get("confidence_score", 0))
+            fields["confidence_score"] = float(
+                fields.get("confidence_score", 0))
         except ValueError:
             fields["confidence_score"] = 0.0
 

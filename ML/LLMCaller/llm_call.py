@@ -2,10 +2,10 @@ from openai import OpenAI
 from config import MAX_REQUESTS_PER_MINUTE, MAX_TOKENS_PER_MINUTE
 
 import time
-import os
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 class Caller:
     def __init__(self, model, api_key: str, temperature: float, base_url: str):
@@ -33,7 +33,8 @@ class Caller:
 
         if self.request_counter > self.max_requests_per_minute or self.token_counter > self.max_tokens_per_minute:
             wait_time = 60 - elapsed
-            logger.info(f"Rate limit hit. Sleeping for {wait_time:.2f} seconds.")
+            logger.info(
+                f"Rate limit hit. Sleeping for {wait_time:.2f} seconds.")
             time.sleep(wait_time)
             self.request_counter = 0
             self.token_counter = 0
@@ -50,4 +51,3 @@ class Caller:
             max_tokens=self.max_tokens_per_minute // self.max_requests_per_minute,
         )
         return response.choices[0].message.content.strip()
-    
