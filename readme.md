@@ -2,6 +2,27 @@
 
 Phoenixio is an AI-powered educational platform that transforms lengthy lecture videos into concise, digestible highlights. It helps students catch up on missed lectures, efficiently review course material, and reinforce complex concepts in a fraction of the time.
 
+## ❗ The Problem
+
+Online learning platforms like PhysicsWallah, Unacademy, and others often deliver **2+ hour-long live classes** daily. But:
+
+- 🧠 **Over 80% of students fall behind** due to illness, burnout, or lack of time.
+- ⏳ Watching backlogged videos is mentally exhausting.
+- 📉 Students lose track, stop revising, or eventually **drop out**.
+
+## ✅ Our Solution
+
+Phoenixio lets students:
+
+- **Catch up in minutes** with auto-generated video highlights from missed lectures.
+- **Revise faster** using only the essential parts of the class — problem solving, concepts, and teaching moments.
+- **Stay consistent**, with personalized learning plans and highlight tracking.
+  > It's not just a text summary. It's the actual video. Trimmed. Enhanced. Smart.
+
+> 🎓 **Important Note**: Phoenixio is **not a replacement** for the original full-length lecture.  
+> We deeply value the time, effort, and expertise educators invest in creating their content.  
+> Our tool is designed to **support students**, not replace teaching — enabling them to stay on track without falling behind.
+
 ## 🔥 Project Overview
 
 Phoenixio uses advanced AI to analyze lecture videos, identify key concepts, and generate highlights that capture essential content in just 10-15% of the original time. The platform is designed to help students stay ahead of their academic journey with minimal effort.
@@ -10,14 +31,26 @@ Phoenixio uses advanced AI to analyze lecture videos, identify key concepts, and
 
 **Live Site:** [Phoenixio Live](https://phoenixio-ayushmaan-paus-projects.vercel.app/)
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **AI-Powered Highlights**: Transform hours of content into digestible highlights
-- **Smart Analysis**: Identifies the most important moments and key learning objectives
-- **Personalized Learning**: Catch-up plans tailored to your learning pace
-- **Instant Processing**: Get highlights in seconds, not hours
-- **Collaborative Learning**: Share highlights with classmates
-- **Progress Tracking**: Monitor your learning journey with detailed analytics
+| Feature                       | Description                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| 🎥 **AI-Powered Highlights**  | Cuts down long lectures into short, topic-wise video segments automatically |
+| 🧠 **Topic Segmentation**     | Identifies distinct sections using NLP, audio, and slide analysis           |
+| ⚡ **Fast Processing**        | Get highlights in minutes with asynchronous ML pipelines                    |
+| 🧾 **Smart Chitchat Removal** | Filters irrelevant banter, Q&A, and filler content                          |
+| 📚 **PDF/PPT Support**        | Attach or extract slides for better comprehension                           |
+| 📈 **Catch-Up Tracking**      | Visual dashboards showing student progress and missed content               |
+| 🔐 **Private Video Delivery** | Signed URLs ensure only enrolled students can access content                |
+| 🤝 **Collaborative Sharing**  | Students can share highlights with peers (if allowed by admin)              |
+
+---
+
+## 📊 Who It's For
+
+- 🎓 Students missing live classes or struggling with revision
+- 🧑‍🏫 Educators looking to improve content engagement and retention
+- 🏢 EdTech platforms needing plug-and-play AI summarization
 
 ## 🏗️ Project Structure
 
@@ -236,6 +269,9 @@ This project is licensed under the Phoenixio Proprietary License - see the [LICE
 
 **Proprietary License** - A restrictive license that reserves all rights and keeps the software proprietary and confidential.
 
----
+## 🚀 Tagline
+
+> “**Catch Up Without Falling Behind.**”  
+> AI-generated video highlights from real classes — not animations, not fake avatars.
 
 **Phoenixio — Rise, Learn, Succeed.**
