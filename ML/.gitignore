@@ -1,2 +1,10 @@
 .conda
-/data
+data
+/logs
+.env
+*.pyc
+__pycache__
+*.pkl
+*.json
+*.mp4
+*.wav
