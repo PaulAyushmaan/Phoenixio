@@ -8,8 +8,6 @@ Phoenixio uses advanced AI to analyze lecture videos, identify key concepts, and
 
 **Demo:** [Watch Demo Video](https://youtu.be/GYm5DH8XUAI?si=YAJ3ijdpguO0fXBT)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GYm5DH8XUAI" title="Phoenixio Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 **Live Site:** [Phoenixio Live](https://phoenixio-ayushmaan-paus-projects.vercel.app/)
 
 ## 🚀 Features
