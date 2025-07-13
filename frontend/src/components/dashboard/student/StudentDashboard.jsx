@@ -9,29 +9,22 @@ import CourseDetail from './CourseDetail';
 import CourseEnrollment from './CourseEnrollment';
 import LectureViewer from './LectureViewer';
 
-export type StudentView = 'dashboard' | 'courses' | 'all-courses' | 'profile' | 'settings' | 'course-detail' | 'course-enrollment' | 'lecture-viewer';
+const StudentDashboard = ({ isSidebarOpen, onSidebarToggle }) => {
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedLectureId, setSelectedLectureId] = useState(null);
 
-interface StudentDashboardProps {
-  isSidebarOpen: boolean;
-  onSidebarToggle: () => void;
-}
-
-const StudentDashboard: React.FC<StudentDashboardProps> = ({ isSidebarOpen, onSidebarToggle }) => {
-  const [currentView, setCurrentView] = useState<StudentView>('dashboard');
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [selectedLectureId, setSelectedLectureId] = useState<string | null>(null);
-
-  const handleViewCourse = (courseId: string) => {
+  const handleViewCourse = (courseId) => {
     setSelectedCourseId(courseId);
     setCurrentView('course-detail');
   };
 
-  const handleEnrollCourse = (courseId: string) => {
+  const handleEnrollCourse = (courseId) => {
     setSelectedCourseId(courseId);
     setCurrentView('course-enrollment');
   };
 
-  const handleViewLecture = (lectureId: string) => {
+  const handleViewLecture = (lectureId) => {
     setSelectedLectureId(lectureId);
     setCurrentView('lecture-viewer');
   };

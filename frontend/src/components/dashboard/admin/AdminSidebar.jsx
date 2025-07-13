@@ -1,26 +1,18 @@
 import React from 'react';
 import { Home, Upload, BookOpen, BarChart3, Settings, Flame, GraduationCap, Plus } from 'lucide-react';
-import { AdminView } from './AdminDashboard';
 
-interface AdminSidebarProps {
-  currentView: AdminView;
-  onViewChange: (view: AdminView) => void;
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentView, onViewChange, isOpen, onToggle }) => {
+const AdminSidebar = ({ currentView, onViewChange, isOpen, onToggle }) => {
   const menuItems = [
-    { id: 'dashboard' as AdminView, label: 'Dashboard', icon: Home },
-    { id: 'upload' as AdminView, label: 'Upload Lecture', icon: Upload },
-    { id: 'lectures' as AdminView, label: 'All Lectures', icon: BookOpen },
-    { id: 'create-course' as AdminView, label: 'Create Course', icon: Plus },
-    { id: 'manage-courses' as AdminView, label: 'Manage Courses', icon: GraduationCap },
-    { id: 'analytics' as AdminView, label: 'Analytics', icon: BarChart3 },
-    { id: 'settings' as AdminView, label: 'Settings', icon: Settings },
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'upload', label: 'Upload Lecture', icon: Upload },
+    { id: 'lectures', label: 'All Lectures', icon: BookOpen },
+    { id: 'create-course', label: 'Create Course', icon: Plus },
+    { id: 'manage-courses', label: 'Manage Courses', icon: GraduationCap },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
-  const handleMenuClick = (view: AdminView) => {
+  const handleMenuClick = (view) => {
     onViewChange(view);
     // Close sidebar on mobile after selection
     if (window.innerWidth < 1024) {

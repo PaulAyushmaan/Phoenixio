@@ -1,7 +1,7 @@
 import React from 'react';
 import { Upload, Bot, Clock, TrendingUp, Zap, BookOpen } from 'lucide-react';
 
-const HowItWorks: React.FC = () => {
+const HowItWorks = () => {
   const steps = [
     {
       icon: Upload,
