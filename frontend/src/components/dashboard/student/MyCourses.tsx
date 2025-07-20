@@ -11,70 +11,70 @@ const MyCourses: React.FC<MyCoursesProps> = ({ onViewCourse }) => {
 
   const courses = [
     {
-      id: 'physics-101',
-      title: 'Introduction to Physics',
-      instructor: 'Dr. Sarah Johnson',
+      id: 'english-101',
+      title: 'English for Competitive Exams',
+      instructor: 'Subhangan Basu',
       progress: 87,
       totalLectures: 24,
       completedLectures: 21,
-      nextLecture: 'Quantum Mechanics Basics',
-      thumbnail: 'https://images.pexels.com/photos/6256065/pexels-photo-6256065.jpeg?auto=compress&cs=tinysrgb&w=400',
+      nextLecture: 'Advanced Grammar',
+      thumbnail: 'https://images.pexels.com/photos/8500618/pexels-photo-8500618.jpeg?auto=compress&cs=tinysrgb&w=400',
       rating: 4.8,
       students: 234,
       status: 'active'
     },
-    {
-      id: 'chemistry-201',
-      title: 'Organic Chemistry',
-      instructor: 'Prof. Michael Chen',
-      progress: 65,
-      totalLectures: 18,
-      completedLectures: 12,
-      nextLecture: 'Reaction Mechanisms',
-      thumbnail: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 4.6,
-      students: 189,
-      status: 'active'
-    },
-    {
-      id: 'math-301',
-      title: 'Advanced Calculus',
-      instructor: 'Dr. Emily Rodriguez',
-      progress: 92,
-      totalLectures: 20,
-      completedLectures: 18,
-      nextLecture: 'Integration Techniques',
-      thumbnail: 'https://images.pexels.com/photos/6238050/pexels-photo-6238050.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 4.9,
-      students: 156,
-      status: 'active'
-    },
-    {
-      id: 'cs-202',
-      title: 'Data Structures & Algorithms',
-      instructor: 'Prof. David Kim',
-      progress: 100,
-      totalLectures: 16,
-      completedLectures: 16,
-      nextLecture: 'Course Completed',
-      thumbnail: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 4.7,
-      students: 298,
-      status: 'completed'
-    },
-    {
-      id: 'biology-150',
-      title: 'Cell Biology Fundamentals',
-      instructor: 'Dr. Lisa Wang',
-      progress: 23,
-      totalLectures: 22,
-      completedLectures: 5,
-      nextLecture: 'Cellular Respiration',
-      thumbnail: 'https://images.pexels.com/photos/8326569/pexels-photo-8326569.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 4.5,
-      students: 167,
-      status: 'active'
-    }
+    // {
+    //   id: 'chemistry-201',
+    //   title: 'Organic Chemistry',
+    //   instructor: 'Prof. Michael Chen',
+    //   progress: 65,
+    //   totalLectures: 18,
+    //   completedLectures: 12,
+    //   nextLecture: 'Reaction Mechanisms',
+    //   thumbnail: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //   rating: 4.6,
+    //   students: 189,
+    //   status: 'active'
+    // },
+    // {
+    //   id: 'math-301',
+    //   title: 'Advanced Calculus',
+    //   instructor: 'Dr. Emily Rodriguez',
+    //   progress: 92,
+    //   totalLectures: 20,
+    //   completedLectures: 18,
+    //   nextLecture: 'Integration Techniques',
+    //   thumbnail: 'https://images.pexels.com/photos/6238050/pexels-photo-6238050.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //   rating: 4.9,
+    //   students: 156,
+    //   status: 'active'
+    // },
+    // {
+    //   id: 'cs-202',
+    //   title: 'Data Structures & Algorithms',
+    //   instructor: 'Prof. David Kim',
+    //   progress: 100,
+    //   totalLectures: 16,
+    //   completedLectures: 16,
+    //   nextLecture: 'Course Completed',
+    //   thumbnail: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //   rating: 4.7,
+    //   students: 298,
+    //   status: 'completed'
+    // },
+    // {
+    //   id: 'biology-150',
+    //   title: 'Cell Biology Fundamentals',
+    //   instructor: 'Dr. Lisa Wang',
+    //   progress: 23,
+    //   totalLectures: 22,
+    //   completedLectures: 5,
+    //   nextLecture: 'Cellular Respiration',
+    //   thumbnail: 'https://images.pexels.com/photos/8326569/pexels-photo-8326569.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //   rating: 4.5,
+    //   students: 167,
+    //   status: 'active'
+    // }
   ];
 
   const filteredCourses = courses.filter(course => {

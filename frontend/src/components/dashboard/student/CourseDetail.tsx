@@ -13,16 +13,16 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId, onBack, onViewLec
   // Mock course data
   const course = {
     id: courseId,
-    title: 'Introduction to Physics',
-    instructor: 'Dr. Sarah Johnson',
-    description: 'A comprehensive introduction to the fundamental principles of physics, covering mechanics, thermodynamics, electromagnetism, and modern physics concepts.',
-    thumbnail: 'https://images.pexels.com/photos/6256065/pexels-photo-6256065.jpeg?auto=compress&cs=tinysrgb&w=800',
+    title: 'English for Competitive Exams',
+    instructor: 'Subhangan Basu',
+    description: 'This course provides comprehensive preparation for various competitive exams focusing on English language skills, including grammar, vocabulary, comprehension, and writing.',
+    thumbnail: 'https://images.pexels.com/photos/8500618/pexels-photo-8500618.jpeg?auto=compress&cs=tinysrgb&w=800',
     rating: 4.8,
     students: 234,
-    totalLectures: 24,
-    completedLectures: 21,
-    progress: 87,
-    duration: '48 hours',
+    totalLectures:1,
+    completedLectures: 1,
+    progress: 100,
+    duration: '1 hours',
     level: 'Beginner',
     prerequisites: ['Basic Mathematics', 'High School Physics'],
     learningOutcomes: [
@@ -37,58 +37,58 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId, onBack, onViewLec
   const lectures = [
     {
       id: '1',
-      title: 'Introduction to Classical Mechanics',
-      duration: '45 min',
-      highlights: '8 min',
+      title: 'Introduction to Nouns and Verbs',
+      duration: '60 min',
+      highlights: '30 min',
       completed: true,
       locked: false,
-      description: 'Overview of Newton\'s laws and basic principles of motion'
+      description: 'Understanding the basics of nouns and verbs, their roles in sentences, and how to identify them in various contexts.'
     },
-    {
-      id: '2',
-      title: 'Kinematics and Motion',
-      duration: '52 min',
-      highlights: '9 min',
-      completed: true,
-      locked: false,
-      description: 'Study of motion without considering forces'
-    },
-    {
-      id: '3',
-      title: 'Forces and Newton\'s Laws',
-      duration: '48 min',
-      highlights: '10 min',
-      completed: true,
-      locked: false,
-      description: 'Deep dive into the three laws of motion'
-    },
-    {
-      id: '4',
-      title: 'Work, Energy, and Power',
-      duration: '55 min',
-      highlights: '12 min',
-      completed: false,
-      locked: false,
-      description: 'Understanding energy transformations and work'
-    },
-    {
-      id: '5',
-      title: 'Momentum and Collisions',
-      duration: '50 min',
-      highlights: '11 min',
-      completed: false,
-      locked: false,
-      description: 'Conservation of momentum in various collision types'
-    },
-    {
-      id: '6',
-      title: 'Rotational Motion',
-      duration: '58 min',
-      highlights: '13 min',
-      completed: false,
-      locked: true,
-      description: 'Angular motion and rotational dynamics'
-    }
+    // {
+    //   id: '2',
+    //   title: 'Kinematics and Motion',
+    //   duration: '52 min',
+    //   highlights: '9 min',
+    //   completed: true,
+    //   locked: false,
+    //   description: 'Study of motion without considering forces'
+    // },
+    // {
+    //   id: '3',
+    //   title: 'Forces and Newton\'s Laws',
+    //   duration: '48 min',
+    //   highlights: '10 min',
+    //   completed: true,
+    //   locked: false,
+    //   description: 'Deep dive into the three laws of motion'
+    // },
+    // {
+    //   id: '4',
+    //   title: 'Work, Energy, and Power',
+    //   duration: '55 min',
+    //   highlights: '12 min',
+    //   completed: false,
+    //   locked: false,
+    //   description: 'Understanding energy transformations and work'
+    // },
+    // {
+    //   id: '5',
+    //   title: 'Momentum and Collisions',
+    //   duration: '50 min',
+    //   highlights: '11 min',
+    //   completed: false,
+    //   locked: false,
+    //   description: 'Conservation of momentum in various collision types'
+    // },
+    // {
+    //   id: '6',
+    //   title: 'Rotational Motion',
+    //   duration: '58 min',
+    //   highlights: '13 min',
+    //   completed: false,
+    //   locked: true,
+    //   description: 'Angular motion and rotational dynamics'
+    // }
   ];
 
   const weeklyProgress = [

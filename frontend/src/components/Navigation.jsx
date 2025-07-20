@@ -1,6 +1,9 @@
 import React from 'react';
 import { Flame, Menu, X } from 'lucide-react';
 
+import { useContext } from 'react';
+import { AuthContext } from '../AuthContext';
+
 const Navigation = ({
   onLogin,
   onRegister,
@@ -9,6 +12,7 @@ const Navigation = ({
   navigateTo,
   onBrowseCourses,
 }) => {
+  const { isLoggedIn } = useContext(AuthContext);
   const handleLoginClick = () => {
     navigateTo('/login');
     onLogin();
@@ -50,18 +54,29 @@ const Navigation = ({
             <a href="#testimonials" className="text-gray-700 hover:text-primary-500 transition-colors">
               Reviews
             </a>
-            <button
-              onClick={handleLoginClick}
-              className="text-gray-700 hover:text-primary-500 transition-colors"
-            >
-              Login
-            </button>
-            <button
-              onClick={handleRegisterClick}
-              className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200 transform hover:scale-105"
-            >
-              Get Started
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={() => navigateTo('/student')}
+                className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200 transform hover:scale-105"
+              >
+                Dashboard
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={handleLoginClick}
+                  className="text-gray-700 hover:text-primary-500 transition-colors"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={handleRegisterClick}
+                  className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200 transform hover:scale-105"
+                >
+                  Get Started
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -94,18 +109,29 @@ const Navigation = ({
               <a href="#testimonials" className="block px-3 py-2 text-gray-700 hover:text-primary-500">
                 Reviews
               </a>
-              <button
-                onClick={handleLoginClick}
-                className="block w-full text-left px-3 py-2 text-gray-700 hover:text-primary-500"
-              >
-                Login
-              </button>
-              <button
-                onClick={handleRegisterClick}
-                className="block w-full mt-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200"
-              >
-                Get Started
-              </button>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => navigateTo('/student')}
+                  className="block w-full mt-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200"
+                >
+                  Dashboard
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={handleLoginClick}
+                    className="block w-full text-left px-3 py-2 text-gray-700 hover:text-primary-500"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={handleRegisterClick}
+                    className="block w-full mt-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-full hover:from-primary-600 hover:to-accent-600 transition-all duration-200"
+                  >
+                    Get Started
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
