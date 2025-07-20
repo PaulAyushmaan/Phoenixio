@@ -11,24 +11,29 @@ const LectureViewer: React.FC<LectureViewerProps> = ({ lectureId, onBack }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   
   const lecture = {
-    title: 'Introduction to Classical Mechanics',
-    course: 'Physics 101',
-    instructor: 'Dr. Sarah Johnson',
-    description: 'Overview of Newton\'s laws and basic principles of motion',
+    title: 'English for Competitive Exams',
+    course: 'English 101',
+    instructor: 'Subhangan Basu',
+    description: 'Overview of nouns and verbs, their roles in sentences, and how to identify them in various contexts.',
     highlightsUrl: 'https://player.cloudinary.com/embed/?cloud_name=dtcnt1i4q&public_id=eng_01_1_iopjbc&profile=cld-default&muted=false&audio=true',
-    fullUrl: 'https://player.cloudinary.com/embed/?cloud_name=dtcnt1i4q&public_id=lectures%2FEnglish&profile=cld-default&muted=false&audio=true',
-    highlightsDuration: '57:00',
-    fullDuration: '30:00',
+    fullUrl: 'https://pub-d912cb6cddf14414bd1bf9596d0b2a6d.r2.dev/eng_01_highlight_video.mp4',
+    highlightsDuration: '56:23',
+    fullDuration: '30:51',
     keyTopics: [
-      { title: 'Newton\'s First Law', timestamp: '0:45' },
-      { title: 'Newton\'s Second Law', timestamp: '3:00' },
-      { title: 'Newton\'s Third Law', timestamp: '5:20' },
-      { title: 'Applications and Examples', timestamp: '7:00' }
+      { title: 'Nouns Fundamentals and Classification', timestamp: '0:45' },
+      { title: 'Material and Abstract Nouns Overview', timestamp: '3:00' },
+      { title: 'Collective Nouns and Their Properties', timestamp: '5:20' },
+      { title: 'Noun-Verb Agreement and Context', timestamp: '7:00' },
+      { title: 'Pronouns and Collective Nouns Interaction', timestamp: '10:00' },
+      { title: 'Noun Types and Their Characteristics', timestamp: '12:00' }
     ],
     notes: [
-      { timestamp: '0:45', content: 'Objects at rest stay at rest unless acted upon by a force' },
-      { timestamp: '3:00', content: 'F = ma - Force equals mass times acceleration' },
-      { timestamp: '5:20', content: 'For every action, there is an equal and opposite reaction' }
+      { timestamp: '0:45', content: "Nouns Fundamentals and Classification" },
+      { timestamp: '3:00', content: "Material and Abstract Nouns Overview" },
+      { timestamp: '5:20', content: "Collective Nouns and Their Properties" },
+      { timestamp: '7:00', content: "Noun-Verb Agreement and Context" },
+      { timestamp: '10:00', content: "Pronouns and Collective Nouns Interaction" },
+      { timestamp: '12:00', content: "Noun Types and Their Characteristics" }
     ]
   };
 
@@ -78,7 +83,7 @@ const LectureViewer: React.FC<LectureViewerProps> = ({ lectureId, onBack }) => {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  AI Highlights ({lecture.highlightsDuration})
+                  Full Lecture ({lecture.highlightsDuration})
                 </button>
                 <button
                   onClick={() => setActiveTab('full')}
@@ -88,20 +93,29 @@ const LectureViewer: React.FC<LectureViewerProps> = ({ lectureId, onBack }) => {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  Full Lecture ({lecture.fullDuration})
+                  Highlights Video ({lecture.fullDuration})
                 </button>
               </nav>
             </div>
 
             {/* Video Player */}
             <div className="aspect-video">
-              <iframe
-                src={currentVideoUrl}
-                className="w-full h-full"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-                title="Lecture Video Player"
-              ></iframe>
+              {activeTab === 'highlights' ? (
+                <iframe
+                  src={lecture.highlightsUrl}
+                  className="w-full h-full"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  title="Lecture Video Player"
+                ></iframe>
+              ) : (
+                <video
+                  src={lecture.fullUrl}
+                  className="w-full h-full object-cover"
+                  controls
+                  title="Lecture Video Player"
+                />
+              )}
             </div>
           </div>
 
@@ -122,14 +136,14 @@ const LectureViewer: React.FC<LectureViewerProps> = ({ lectureId, onBack }) => {
                 <div key={index} className="p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-gray-900">{topic.title}</span>
-                    <span className="text-sm text-gray-500">{topic.timestamp}</span>
+                    {/* <span className="text-sm text-gray-500">{topic.timestamp}</span> */}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Notes */}
+          {/* Notes
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Lecture Notes</h3>
             <div className="space-y-4">
@@ -142,7 +156,7 @@ const LectureViewer: React.FC<LectureViewerProps> = ({ lectureId, onBack }) => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Completion Status */}
           {isCompleted && (

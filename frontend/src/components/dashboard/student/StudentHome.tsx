@@ -40,31 +40,31 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
   const recentLectures = [
     {
       id: '1',
-      title: 'Quantum Mechanics Fundamentals',
-      course: 'Physics 101',
+      title: 'English for Compititive Exams',
+      course: 'English 101',
       duration: '8m 45s',
       progress: 100,
-      thumbnail: 'https://images.pexels.com/photos/6256065/pexels-photo-6256065.jpeg?auto=compress&cs=tinysrgb&w=300',
+      thumbnail: 'https://images.pexels.com/photos/8500618/pexels-photo-8500618.jpeg?auto=compress&cs=tinysrgb&w=300',
       completedAt: '2 hours ago'
     },
-    {
-      id: '2',
-      title: 'Organic Chemistry Reactions',
-      course: 'Chemistry 201',
-      duration: '12m 30s',
-      progress: 65,
-      thumbnail: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=300',
-      completedAt: 'In progress'
-    },
-    {
-      id: '3',
-      title: 'Data Structures Overview',
-      course: 'Computer Science 202',
-      duration: '15m 20s',
-      progress: 0,
-      thumbnail: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=300',
-      completedAt: 'Not started'
-    }
+    // {
+    //   id: '2',
+    //   title: 'Organic Chemistry Reactions',
+    //   course: 'Chemistry 201',
+    //   duration: '12m 30s',
+    //   progress: 65,
+    //   thumbnail: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=300',
+    //   completedAt: 'In progress'
+    // },
+    // {
+    //   id: '3',
+    //   title: 'Data Structures Overview',
+    //   course: 'Computer Science 202',
+    //   duration: '15m 20s',
+    //   progress: 0,
+    //   thumbnail: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=300',
+    //   completedAt: 'Not started'
+    // }
   ];
 
   const upcomingDeadlines = [
@@ -129,12 +129,12 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, {user_name}! 👋</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back, {user_name}!</h1>
         <p className="text-gray-600">Great job catching up! Keep up the momentum and stay ahead of your studies.</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+    {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
@@ -147,7 +147,7 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
             <p className="text-xs text-green-600 font-medium">{stat.change}</p>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Recent Lectures */}
@@ -163,7 +163,7 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
             
             <div className="space-y-4">
               {recentLectures.map((lecture) => (
-                <div key={lecture.id} className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                <div key={lecture.id} className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => onViewCourse(lecture.courseId)}>
                   <div className="relative flex-shrink-0">
                     <img
                       src={lecture.thumbnail}
@@ -196,7 +196,7 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
           </div>
 
           {/* Featured Courses */}
-          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          {/* <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Featured Courses</h2>
               <button className="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1">
@@ -239,13 +239,13 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Upcoming Deadlines */}
-          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          {/* <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
             <div className="flex items-center space-x-2 mb-4">
               <Calendar className="h-5 w-5 text-primary-600" />
               <h2 className="text-lg font-bold text-gray-900">Upcoming Deadlines</h2>
@@ -263,10 +263,10 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Quick Actions */}
-          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          {/* <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <button
@@ -285,10 +285,10 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
                 <span>Resume Last Video</span>
               </button>
             </div>
-          </div>
+          </div> */}
 
           {/* Achievement */}
-          <div className="bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl p-4 sm:p-6 text-white">
+          {/* <div className="bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl p-4 sm:p-6 text-white">
             <div className="flex items-center space-x-3 mb-3">
               <Star className="h-6 w-6" />
               <h3 className="text-lg font-bold">Achievement Unlocked!</h3>
@@ -298,7 +298,7 @@ const StudentHome: React.FC<StudentHomeProps> = ({ onViewCourse }) => {
               <p className="text-sm font-semibold">Study Streak Master</p>
               <p className="text-xs text-primary-100">Keep up the great work!</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import ProductPreview from './components/ProductPreview';
@@ -19,7 +20,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentRoute, setCurrentRoute] = useState('');
   const [selectedCourseId, setSelectedCourseId] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, role, login, logout } = useContext(AuthContext);
 
   // Hash routing logic
   useEffect(() => {
@@ -66,24 +67,23 @@ function App() {
   };
 
   const handleSuccessfulLogin = (role) => {
-    setIsLoggedIn(true);
+    login(role);
     handleCloseModals();
-
     if (role === 'admin') {
       navigateTo('/admin');
     } else if (role === 'user') {
       navigateTo('/student');
-    } 
+    }
   };
 
   const handleSuccessfulRegister = () => {
-    setIsLoggedIn(true);
+    login('user');
     handleCloseModals();
     navigateTo('/login');
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
     navigateTo('/');
   };
 
@@ -260,8 +260,12 @@ function App() {
     }
   }, [currentRoute]);
 
-  // Render based on current route
+  // Private routing logic
   if (isDashboardRoute()) {
+    if (!isLoggedIn) {
+      navigateTo('/login');
+      return null;
+    }
     return (
       <DashboardApp 
         onLogout={handleLogout}
@@ -280,6 +284,7 @@ function App() {
     return <CourseDetailPage />;
   }
 
+  // If logged in and on home, show dashboard button in Navigation (already handled)
   return <LandingPage />;
 }
 
